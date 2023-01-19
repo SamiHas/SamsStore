@@ -4,23 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SamsStore.Models;
 
-
-namespace SamsStore.Models
+namespace SamsStore.DTO
 {
-    [Table("Sales")]
-    public class Sale
+    public class SalesDTO
     {
-        [Key]
-        [Required]
         public int Id { get; set; }
         public int ProductId { get; set; }
+
         public int CustomerId { get; set; }
         public int StoreId { get; set; }
-        public DateTime DateSold { get; set; }
-
-        public Customer Customer { get; set; }
-        public Product Product { get; set; }
-        public Store Store { get; set; }
+       
     }
 }

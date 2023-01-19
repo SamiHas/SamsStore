@@ -46,7 +46,7 @@ namespace SamsStore.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStore(int id, Store store)
+        public async Task<IActionResult> PutStore(int id,[FromForm] Store store)
         {
             if (id != store.Id)
             {
@@ -78,7 +78,7 @@ namespace SamsStore.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Store>> PostStore(Store store)
+        public async Task<ActionResult<Store>> PostStore([FromForm]Store store)
         {
             _context.Stores.Add(store);
             await _context.SaveChangesAsync();

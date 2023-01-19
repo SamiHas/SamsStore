@@ -3,46 +3,46 @@ import { Link } from 'react-router-dom'
 import { Pagination } from './Pagination'
 import { paginate } from './paginate'
 
-export class FetchCustomers extends Component {
+export class FetchProducts extends Component {
     state = {
-        customers: [],
+        products: [],
         currentPage: 1,
         pageSize: 4
     }
 
 
 
-    populateCustomersData = async () => {
+    populateProductsData = async () => {
 
-        const response = await fetch('api/customersapi')
+        const response = await fetch('api/productsapi')
         const data = await response.json()
 
 
-        this.setState({ customers: data })
+        this.setState({ products: data })
 
     }
 
     componentDidMount = () => {
-        this.populateCustomersData()
+        this.populateProductsData()
     }
 
 
 
     render() {
-        let contents = this.renderCustomersTable(this.state.customers)
+        let contents = this.renderProductsTable(this.state.products)
 
         return (
             <div>
-                <h1 id="tableLabel">Customers</h1>
-                <p>This is customer data </p>
+                <h1 id="tableLabel">Products</h1>
+                <p>This is product data </p>
                 <p>
-                    <Link to="/addcustomer">Create New</Link>
+                    <Link to="/addproduct">Create New</Link>
                 </p>
                 {contents}
 
 
                 {/* //Code for Pagination*/}
-                <Pagination itemCount={this.state.customers.length}
+                <Pagination itemCount={this.state.products.length}
                     pageSize={this.state.pageSize}
                     currentPage={this.state.currentPage}
                     onPageChange={this.handlePageChange} />
@@ -50,9 +50,9 @@ export class FetchCustomers extends Component {
         )
     }
 
-    renderCustomersTable = customers => {
+    renderProductsTable = products => {
         //Code for pagination
-        const de = paginate(this.state.customers,
+        const de = paginate(this.state.products,
             this.state.currentPage,
             this.state.pageSize)
 
@@ -63,28 +63,28 @@ export class FetchCustomers extends Component {
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Customer #</th>
+                        <th>Product #</th>
                         <th>Name</th>
-                        <th>Address</th>
+                        <th>Price</th>
                         <th></th>
                     </tr>
                 </thead>
 
                 <tbody>
 
-                    {de.map(customer =>
-                        <tr key={customer.id}>
+                    {de.map(product =>
+                        <tr key={product.id}>
                             <td></td>
-                            <td>{customer.id}</td>
-                            <td>{customer.name}</td>
-                            <td>{customer.address}</td>
+                            <td>{product.id}</td>
+                            <td>{product.name}</td>
+                            <td>{product.price}</td>
                             <td>
                                 <button
-                                    onClick={id => this.handleEdit(customer.id)}
+                                    onClick={id => this.handleEdit(product.id)}
                                 >Edit
                                 </button>
                                 <button
-                                    onClick={id => this.handleDelete(customer.id)}
+                                    onClick={id => this.handleDelete(product.id)}
                                 >Delete
                                 </button>
 
@@ -102,18 +102,18 @@ export class FetchCustomers extends Component {
     }
 
     handleEdit = id => {
-        this.props.history.push("/customers/edit/" + id)
+        this.props.history.push("/products/edit/" + id)
     }
 
     handleDelete = id => {
-        if (!window.confirm("Do you want to delete customer with id: " + id)) {
+        if (!window.confirm("Do you want to delete product with id: " + id)) {
             return
         }
         else {
-            fetch('api/customersapi/' + id, { method: 'delete' })
+            fetch('api/productsapi/' + id, { method: 'delete' })
                 .then(data => {
                     this.setState({
-                        customers: this.state.customers.filter(rec => {
+                        products: this.state.products.filter(rec => {
                             return rec.id != id
                         })
                     })

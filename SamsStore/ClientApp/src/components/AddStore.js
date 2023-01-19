@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react'
 
-export class Customer {
+export class Store {
     constructor() {
         this.id = 0
         this.name = ""
@@ -8,7 +8,7 @@ export class Customer {
     }
 }
 
-export class AddCustomer extends Component {
+export class AddStore extends Component {
 
     constructor(props) {
         super(props)
@@ -17,7 +17,7 @@ export class AddCustomer extends Component {
 
     state = {
         title: "",
-        customer: new Customer(),
+        store: new Store(),
         loading: true
     }
 
@@ -28,12 +28,12 @@ export class AddCustomer extends Component {
         var id = this.props.match.params["id"]
         if (id > 0) {
 
-            const response = await fetch('/api/customersapi/' + id)
+            const response = await fetch('/api/storesapi/' + id)
             const data = await response.json()
 
             this.setState({
                 title: "Edit",
-                customer: data,
+                store: data,
                 loading: false
             })
 
@@ -41,7 +41,7 @@ export class AddCustomer extends Component {
         else {
             this.state = {
                 title: "Create",
-                customer: new Customer(),
+                store: new Store(),
                 loading: false
             }
         }
@@ -51,7 +51,7 @@ export class AddCustomer extends Component {
         this.initialize()
     }
 
-    
+
     render() {
         let contents = this.state.loading
             ? <p><em>Loading....</em></p>
@@ -59,7 +59,7 @@ export class AddCustomer extends Component {
         return (
             <div>
                 <h1>{this.state.title}</h1>
-                <h3>Customer</h3>
+                <h3>Store</h3>
                 <hr />
                 {contents}
             </div>
@@ -70,27 +70,21 @@ export class AddCustomer extends Component {
         event.preventDefault()
 
         const data = new FormData(event.target)
-        if (this.state.customer.id) {
-            var response = fetch('api/customersapi/' +
-                this.state.customer.id, { method: 'PUT', body: data })
-             this.props.history.push("/fetch-customer")
+        if (this.state.store.id) {
+            var response = fetch('api/storesapi/' +
+                this.state.store.id, { method: 'PUT', body: data })
+            // this.props.history.push("/addstore")
         }
         else {
-            var response2 = fetch('api/customersapi',
+            var response2 = fetch('api/storesapi',
                 { method: 'POST', body: data })
-            this.props.history.push("/fetch-customer")
+            //this.props.history.push("/fetch-stores")
         }
     }
 
     handleCancel = event => {
         event.preventDefault()
-        this.props.history.push("/fetch-customer")
-    }
-
-    handleChange = event => {
-        const customer = {...this.state.customer}
-        customer[event.currentTarget.name] = event.currentTarget.DefaultValue
-        this.setState({customer})
+        this.props.history.push("/fetch-store")
     }
 
     renderCreateForm = () => {
@@ -98,16 +92,14 @@ export class AddCustomer extends Component {
             <form onSubmit={this.handleSave}>
                 <div >
                     <input type="hidden" name="id"
-                        value={this.state.customer.id} />
+                        value={this.state.store.id} />
                 </div>
 
                 <div >
                     <label htmlFor="name">Name</label>
                     <div >
                         <input type="text" name="name"
-                            defaultValue={this.state.customer.name}
-                            onChange={this.handleChange}
-                            required />
+                            defaultValue={this.state.store.name} required />
                     </div>
                 </div>
 
@@ -115,15 +107,13 @@ export class AddCustomer extends Component {
                     <label htmlFor="address">Address</label>
                     <div >
                         <input type="text" name="address"
-                            defaultValue={this.state.customer.address}
-                            onChange={this.handleChange}
-                            required />
+                            defaultValue={this.state.store.address} required />
                     </div>
                 </div>
 
                 <div >
                     <button type="submit" >Save</button>
-                    <button onClick={this.handleCancel} >Back to the List</button>
+                    <button onClick={this.handleCancel}>Back to the List</button>
                 </div>
             </form>
         )

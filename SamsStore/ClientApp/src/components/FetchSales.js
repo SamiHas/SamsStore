@@ -2,47 +2,43 @@
 import { Link } from 'react-router-dom'
 import { Pagination } from './Pagination'
 import { paginate } from './paginate'
+import { Button } from 'semantic-ui-react'
 
-export class FetchCustomers extends Component {
+export class FetchSales extends Component {
     state = {
-        customers: [],
+        sales: [],
         currentPage: 1,
         pageSize: 4
     }
 
 
-
-    populateCustomersData = async () => {
-
-        const response = await fetch('api/customersapi')
+    populateSalesData = async () => {
+        const response = await fetch('api/salesapi')
         const data = await response.json()
 
-
-        this.setState({ customers: data })
-
+        this.setState({ sales: data })
     }
 
     componentDidMount = () => {
-        this.populateCustomersData()
+        this.populateSalesData()
     }
 
 
-
     render() {
-        let contents = this.renderCustomersTable(this.state.customers)
+        let contents = this.renderSalesTable(this.state.sales)
 
         return (
             <div>
-                <h1 id="tableLabel">Customers</h1>
-                <p>This is customer data </p>
+                <h1 id="tableLabel">Sales</h1>
+                <p>This is Sales data </p>
                 <p>
-                    <Link to="/addcustomer">Create New</Link>
+                    <Link to="/addsale">Create New</Link>
                 </p>
                 {contents}
 
 
                 {/* //Code for Pagination*/}
-                <Pagination itemCount={this.state.customers.length}
+                <Pagination itemCount={this.state.sales.length}
                     pageSize={this.state.pageSize}
                     currentPage={this.state.currentPage}
                     onPageChange={this.handlePageChange} />
@@ -50,9 +46,9 @@ export class FetchCustomers extends Component {
         )
     }
 
-    renderCustomersTable = customers => {
+    renderSalesTable = sales => {
         //Code for pagination
-        const de = paginate(this.state.customers,
+        const de = paginate(this.state.sales,
             this.state.currentPage,
             this.state.pageSize)
 
@@ -63,37 +59,38 @@ export class FetchCustomers extends Component {
                 <thead>
                     <tr>
                         <th></th>
+                        {/*<th>ID</th>*/}
                         <th>Customer #</th>
-                        <th>Name</th>
-                        <th>Address</th>
+                        <th>Product #</th>
+                        <th>Store #</th>
+                        <th>DateSold</th>
                         <th></th>
                     </tr>
                 </thead>
 
                 <tbody>
-
-                    {de.map(customer =>
-                        <tr key={customer.id}>
+                    {de.map(sale =>
+                        <tr key={sale.id}>
                             <td></td>
-                            <td>{customer.id}</td>
-                            <td>{customer.name}</td>
-                            <td>{customer.address}</td>
+                            {/*<td>{ sale.id}</td>*/}
+                            <td>{sale.customer.name}</td>
+                            <td>{sale.product.name}</td>
+                            <td>{sale.store.name}</td>
+                            <td>{sale.dateSold}</td>
                             <td>
                                 <button
-                                    onClick={id => this.handleEdit(customer.id)}
+                                    onClick={id => this.handleEdit(sale.id)}
                                 >Edit
                                 </button>
-                                <button
-                                    onClick={id => this.handleDelete(customer.id)}
+                                <Button primary
+                                    onClick={id => this.handleDelete(sale.id)}
                                 >Delete
-                                </button>
-
+                                </Button>
                             </td>
                         </tr>
                     )}
                 </tbody>
             </table>
-
         )
     }
 
@@ -102,18 +99,18 @@ export class FetchCustomers extends Component {
     }
 
     handleEdit = id => {
-        this.props.history.push("/customers/edit/" + id)
+        this.props.history.push("/sales/edit/" + id)
     }
 
     handleDelete = id => {
-        if (!window.confirm("Do you want to delete customer with id: " + id)) {
+        if (!window.confirm("Do you want to delete sales with id: " + id)) {
             return
         }
         else {
-            fetch('api/customersapi/' + id, { method: 'delete' })
+            fetch('api/salesapi/' + id, { method: 'delete' })
                 .then(data => {
                     this.setState({
-                        customers: this.state.customers.filter(rec => {
+                        sales: this.state.sales.filter(rec => {
                             return rec.id != id
                         })
                     })

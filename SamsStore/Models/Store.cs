@@ -11,14 +11,24 @@ namespace SamsStore.Models
     [Table("Stores")]
     public class Store
     {
+        /*[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Store()
+        {
+            this.Sales = new HashSet<Sale>();
+        }*/
         [Key]
         [Required]
         public int Id { get; set; }
         [MaxLength(50)]
-        [Required]
+
         public string Name { get; set; }
         [MaxLength(50)]
-        [Required]
+
         public string Address { get; set; }
+
+        //  [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+        //public virtual ICollection<Sale> Sales { get; set; }
+        //public List<Sale> Sales { get; set; }
     }
 }

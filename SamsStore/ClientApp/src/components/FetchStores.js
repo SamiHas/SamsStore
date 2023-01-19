@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { Pagination } from './Pagination'
 import { paginate } from './paginate'
 
-export class FetchCustomers extends Component {
+export class FetchStores extends Component {
     state = {
-        customers: [],
+        stores: [],
         currentPage: 1,
         pageSize: 4
     }
@@ -14,11 +14,11 @@ export class FetchCustomers extends Component {
 
     populateCustomersData = async () => {
 
-        const response = await fetch('api/customersapi')
+        const response = await fetch('api/storesapi')
         const data = await response.json()
 
 
-        this.setState({ customers: data })
+        this.setState({ stores: data })
 
     }
 
@@ -29,20 +29,20 @@ export class FetchCustomers extends Component {
 
 
     render() {
-        let contents = this.renderCustomersTable(this.state.customers)
+        let contents = this.renderStoresTable(this.state.stores)
 
         return (
             <div>
-                <h1 id="tableLabel">Customers</h1>
-                <p>This is customer data </p>
+                <h1 id="tableLabel">Stores</h1>
+                <p>This is store data </p>
                 <p>
-                    <Link to="/addcustomer">Create New</Link>
+                    <Link to="/addstore">Create New</Link>
                 </p>
                 {contents}
 
 
                 {/* //Code for Pagination*/}
-                <Pagination itemCount={this.state.customers.length}
+                <Pagination itemCount={this.state.stores.length}
                     pageSize={this.state.pageSize}
                     currentPage={this.state.currentPage}
                     onPageChange={this.handlePageChange} />
@@ -50,9 +50,9 @@ export class FetchCustomers extends Component {
         )
     }
 
-    renderCustomersTable = customers => {
+    renderStoresTable = stores => {
         //Code for pagination
-        const de = paginate(this.state.customers,
+        const de = paginate(this.state.stores,
             this.state.currentPage,
             this.state.pageSize)
 
@@ -63,7 +63,7 @@ export class FetchCustomers extends Component {
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Customer #</th>
+                        <th>Store #</th>
                         <th>Name</th>
                         <th>Address</th>
                         <th></th>
@@ -72,19 +72,19 @@ export class FetchCustomers extends Component {
 
                 <tbody>
 
-                    {de.map(customer =>
-                        <tr key={customer.id}>
+                    {de.map(store =>
+                        <tr key={store.id}>
                             <td></td>
-                            <td>{customer.id}</td>
-                            <td>{customer.name}</td>
-                            <td>{customer.address}</td>
+                            <td>{store.id}</td>
+                            <td>{store.name}</td>
+                            <td>{store.address}</td>
                             <td>
                                 <button
-                                    onClick={id => this.handleEdit(customer.id)}
+                                    onClick={id => this.handleEdit(store.id)}
                                 >Edit
                                 </button>
                                 <button
-                                    onClick={id => this.handleDelete(customer.id)}
+                                    onClick={id => this.handleDelete(store.id)}
                                 >Delete
                                 </button>
 
@@ -102,18 +102,18 @@ export class FetchCustomers extends Component {
     }
 
     handleEdit = id => {
-        this.props.history.push("/customers/edit/" + id)
+        this.props.history.push("/stores/edit/" + id)
     }
 
     handleDelete = id => {
-        if (!window.confirm("Do you want to delete customer with id: " + id)) {
+        if (!window.confirm("Do you want to delete store with id: " + id)) {
             return
         }
         else {
-            fetch('api/customersapi/' + id, { method: 'delete' })
+            fetch('api/storesapi/' + id, { method: 'delete' })
                 .then(data => {
                     this.setState({
-                        customers: this.state.customers.filter(rec => {
+                        stores: this.state.stores.filter(rec => {
                             return rec.id != id
                         })
                     })

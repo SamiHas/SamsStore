@@ -1,0 +1,112 @@
+﻿  var salesdata = await _context.Sales
+             .Include(s => s.Customer)
+             .Include(s => s.Product)
+             .Include(s => s.Store).ToListAsync();
+            return salesdata;
+
+
+
+
+ /* var salesdata = await _context.Sales
+                      .Include(s => s.Customer)
+                      .Include(s => s.Product)
+                      .Include(s => s.Store)
+                      .Select(s => new
+                      {
+                          id = s.Id,
+                          dateSold = s.DateSold,
+                          customer = new
+                          {
+                              name = s.Customer.Name,
+                              address = s.Customer.Address
+                          },
+                          product = new
+                          {
+                              name = s.Product.Name,
+                              price = s.Product.Price
+                          },
+                          store = new
+                          {
+                              name = s.Store.Name,
+                              address = s.Store.Address
+                          }
+                      })
+                      .ToListAsync();
+             return salesdata;*/
+
+
+
+
+ /* var temp = _context.Sales
+                 .Where(x => x.CustomerId == sale.CustomerId
+                 && x.ProductId == sale.ProductId
+                 && x.StoreId == sale.StoreId)
+                 .FirstOrDefault();
+
+             if (temp == null)
+             {
+                 _context.Sales.Add(sale);
+                 await _context.SaveChangesAsync();
+             }
+             else
+             {
+                 sale = temp;
+             }
+             return Ok(sale);
+
+         }*/
+
+
+
+
+
+
+
+         
+        // PUT: api/SalesApi/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutSale(int id)
+        {
+            
+
+            if (id != sale.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(sale).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SaleExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+
+
+
+
+
+         
+        /* [ProducesResponseType(typeof(SalesDTO),200)]
+         public IActionResult GetSales()
+         {
+             var sales = _context.Sales.ToList();
+             var salesDots = _mapper.Map<List<SalesDTO>>(sales);
+             return Ok(salesDots);
+
+         }*/
