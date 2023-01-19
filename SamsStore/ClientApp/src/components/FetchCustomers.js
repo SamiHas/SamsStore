@@ -34,9 +34,9 @@ export class FetchCustomers extends Component {
         return (
             <div>
                 <h1 id="tableLabel">Customers</h1>
-                <p>This componets fetches Depts data from the server </p>
+                <p>This is customer data </p>
                 <p>
-                    <Link to="/adddept">Create New</Link>
+                    <Link to="/addcustomer">Create New</Link>
                 </p>
                 {contents}
 
@@ -106,14 +106,14 @@ export class FetchCustomers extends Component {
     }
 
     handleDelete = id => {
-        if (!window.confirm("Do you want to delete dept with DeptNo: " + id)) {
+        if (!window.confirm("Do you want to delete customer with id: " + id)) {
             return
         }
         else {
             fetch('api/customersapi/' + id, { method: 'delete' })
                 .then(data => {
                     this.setState({
-                        depts: this.state.customers.filter(rec => {
+                        customers: this.state.customers.filter(rec => {
                             return rec.id != id
                         })
                     })

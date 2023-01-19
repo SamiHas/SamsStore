@@ -1,29 +1,23 @@
 ﻿import React, { Component } from 'react'
 
-export class Dept {
+export class Customer {
     constructor() {
-        this.deptNo = 0
-        this.dName = ""
-        this.location = ""
+        this.id = 0
+        this.name = ""
+        this.address = ""
     }
 }
 
-export class AddDept extends Component {
+export class AddCustomer extends Component {
 
     constructor(props) {
         super(props)
         this.initialize()
-        /* this.state = {
-             title: "",
-             //doesn't make difference with-()
-             dept: new Dept(),
-             loading: true
-         }*/
     }
 
     state = {
         title: "",
-        dept: new Dept(),
+        customer: new Customer(),
         loading: true
     }
 
@@ -31,15 +25,15 @@ export class AddDept extends Component {
     //initialize =this.initialize.bind(this)
 
     async initialize() {
-        var deptNo = this.props.match.params["deptNo"]
-        if (deptNo > 0) {
+        var id = this.props.match.params["id"]
+        if (id > 0) {
 
-            const response = await fetch('/api/deptsapi/' + deptNo)
+            const response = await fetch('/api/customersapi/' + id)
             const data = await response.json()
 
             this.setState({
                 title: "Edit",
-                dept: data,
+                customer: data,
                 loading: false
             })
 
@@ -47,42 +41,17 @@ export class AddDept extends Component {
         else {
             this.state = {
                 title: "Create",
-                dept: new Dept(),
+                customer: new Customer(),
                 loading: false
             }
-
-
         }
     }
-
 
     componentDidMount() {
         this.initialize()
     }
 
-    /* async initialize()   {
-         var deptNo = this.props.match.params["deptNo"]
-         if (deptNo > 0) {
-             const response = await fetch('/api/deptsapi/' + deptNo)
-             const data = await response.json()
- 
-             this.setState({
-                 title: "Edit",
-                 dept: data,
-                 loading: false
-             })
-         }
-         else {
-             this.state = {
-                 title: "Create",
-                 dept: new Dept(),
-                 loading: false
-             }
-         }
-     }*/
-
-
-
+    
     render() {
         let contents = this.state.loading
             ? <p><em>Loading....</em></p>
@@ -90,7 +59,7 @@ export class AddDept extends Component {
         return (
             <div>
                 <h1>{this.state.title}</h1>
-                <h3>Department</h3>
+                <h3>Customer</h3>
                 <hr />
                 {contents}
             </div>
@@ -101,44 +70,44 @@ export class AddDept extends Component {
         event.preventDefault()
 
         const data = new FormData(event.target)
-        if (this.state.dept.deptNo) {
-            var response = fetch('api/deptsapi/' +
-                this.state.dept.deptNo, { method: 'PUT', body: data })
-            // this.props.history.push("/adddept")
+        if (this.state.customer.id) {
+            var response = fetch('api/customersapi/' +
+                this.state.customer.id, { method: 'PUT', body: data })
+            // this.props.history.push("/addcustomer")
         }
         else {
-            var response2 = fetch('api/deptsapi',
+            var response2 = fetch('api/customersapi',
                 { method: 'POST', body: data })
-            //this.props.history.push("/fetch-depts")
+            //this.props.history.push("/fetch-customers")
         }
     }
 
     handleCancel = event => {
         event.preventDefault()
-        this.props.history.push("/fetch-depts")
+        this.props.history.push("/fetch-customer")
     }
 
     renderCreateForm = () => {
         return (
             <form onSubmit={this.handleSave}>
                 <div >
-                    <input type="hidden" name="deptNo"
-                        value={this.state.dept.deptNo} />
+                    <input type="hidden" name="id"
+                        value={this.state.customer.id} />
                 </div>
 
                 <div >
-                    <label htmlFor="dName">Name</label>
+                    <label htmlFor="name">Name</label>
                     <div >
-                        <input type="text" name="dName"
-                            defaultValue={this.state.dept.dName} required />
+                        <input type="text" name="name"
+                            defaultValue={this.state.customer.name} required />
                     </div>
                 </div>
 
                 <div >
-                    <label htmlFor="location">Location</label>
+                    <label htmlFor="address">Address</label>
                     <div >
-                        <input type="text" name="location"
-                            defaultValue={this.state.dept.location} required />
+                        <input type="text" name="address"
+                            defaultValue={this.state.customer.address} required />
                     </div>
                 </div>
 
