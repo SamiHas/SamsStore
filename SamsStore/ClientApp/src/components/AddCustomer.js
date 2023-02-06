@@ -73,24 +73,34 @@ export class AddCustomer extends Component {
         if (this.state.customer.id) {
             var response = fetch('api/customersapi/' +
                 this.state.customer.id, { method: 'PUT', body: data })
+
              this.props.history.push("/fetch-customer")
+
+            // this.props.history.push("/addcustomer")
+
         }
         else {
             var response2 = fetch('api/customersapi',
                 { method: 'POST', body: data })
+
             this.props.history.push("/fetch-customer")
+
+            //this.props.history.push("/fetch-customers")
+
         }
     }
 
     handleCancel = event => {
         event.preventDefault()
         this.props.history.push("/fetch-customer")
+
     }
 
     handleChange = event => {
         const customer = {...this.state.customer}
         customer[event.currentTarget.name] = event.currentTarget.DefaultValue
         this.setState({customer})
+
     }
 
     renderCreateForm = () => {
@@ -105,9 +115,13 @@ export class AddCustomer extends Component {
                     <label htmlFor="name">Name</label>
                     <div >
                         <input type="text" name="name"
+
                             defaultValue={this.state.customer.name}
                             onChange={this.handleChange}
                             required />
+
+                           
+
                     </div>
                 </div>
 
@@ -115,9 +129,13 @@ export class AddCustomer extends Component {
                     <label htmlFor="address">Address</label>
                     <div >
                         <input type="text" name="address"
+
                             defaultValue={this.state.customer.address}
                             onChange={this.handleChange}
                             required />
+
+                            
+
                     </div>
                 </div>
 
