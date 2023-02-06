@@ -110,3 +110,13 @@
              return Ok(salesDots);
 
          }*/
+
+
+
+
+         <div >
+                           <input type="number" name="customerId"
+                                   defaultValue={this.state.sale.customerId}
+                               onChange={this.handleChange/*(event, data) => setCustomerId(data.defaultValue)*/}
+                                />
+                        </div>

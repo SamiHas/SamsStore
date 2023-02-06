@@ -12,7 +12,8 @@ import { AddStore } from './components/AddStore';
 import { FetchProducts } from './components/FetchProducts';
 import { AddProduct } from './components/AddProduct';
 import { FetchSales } from './components/FetchSales';
-import { AddSale } from './components/AddSale';
+//import { AddSale } from './components/AddSale';
+import { AddSale } from './components/AddSale2';
 
 
 import './custom.css'
@@ -41,6 +42,8 @@ export default class App extends Component {
         <Route path='/products/edit/:id' component={AddProduct} />
 
         <Route path='/fetch-sale' component={FetchSales} />
+       {/* <Route path='/addsale' component={AddSale} />
+        <Route path='/sales/edit/:id' component={AddSale} />*/}
         <Route path='/addsale' component={AddSale} />
         <Route path='/sales/edit/:id' component={AddSale} />
 
