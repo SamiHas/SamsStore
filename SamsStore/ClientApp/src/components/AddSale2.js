@@ -1,6 +1,4 @@
-﻿//import { concat } from 'lodash'
-
-import React, { Component } from 'react'
+﻿import React, { Component } from 'react'
 import { Button, Dropdown } from 'semantic-ui-react'
 
 export class Sale {
@@ -9,7 +7,6 @@ export class Sale {
         this.customerId = 0
         this.productId = 0
         this.storeId = 0
-       
     }
 }
 
@@ -22,15 +19,15 @@ export class AddSale extends Component {
 
     state = {
         title: "",
-        sale:new Sale(),
+        sale:new Sale(),//Sale object to use for create new sale
         loading: true,
-        customers: []
+        customers: []   //Empty customers array for store customer data after fetching  
         
     }
 
 
     
-
+    // Fetch data with id for EDIT and create a empty new sale object for CREATE method
     async initialize() {
         var id = this.props.match.params["id"]
         if (id > 0) {
@@ -58,9 +55,9 @@ export class AddSale extends Component {
 
 
     render() {
-        let contents = this.state.loading
+        let contents = /*this.state.loading
             ? <p><em>Loading....</em></p>
-            : this.renderCreateForm();
+            :*/ this.renderCreateForm();
         return (
             <div>
                 <h1>{this.state.title}</h1>
@@ -70,7 +67,7 @@ export class AddSale extends Component {
             </div>
         )
     }
-    //Fetching the data
+    // Fetching data for PUSH and PUT method
     handleSave = event => {
         event.preventDefault()
 
@@ -112,8 +109,9 @@ export class AddSale extends Component {
     
 
     renderCreateForm = () => {
+
         //*****I WAS TRYING TO CREAT THE customerOptions for Options for the DropDown
-        const customerOptions = customers.map(customer => {
+        const customerOptions = this.state.customers.map(customer => {
             const options = {}
             options.key = customer.id
             options.text = customer.name
@@ -131,7 +129,7 @@ export class AddSale extends Component {
                     value={this.state.sale.id} />
                 </div>
               
-                    <div >
+                    {/*<div >
                         <label htmlFor="dateSold">Date Sold</label>
                         <div >
                             <input type="date" name="dateSold"
@@ -140,7 +138,7 @@ export class AddSale extends Component {
                            onChange={this.handleChange}
                        />
                         </div>
-                    </div>
+                    </div>*/}
                
 
               {/* //*******HERE I WAS TRYING TO USE THE DROPDOWN*/}
@@ -150,14 +148,14 @@ export class AddSale extends Component {
 
                        <div>
                            <Dropdown
-                               placeholder="select"
-                               fluid
-                               selection
+                            placeholder="select"
+                            fluid
+                            selection
                             value={this.state.sale.customerId}
                             //***** Here the code every where using with setCustomerId, that is using Hooks
                             //Like this: onChange={(event, data) => setCustomerId(data.value)}
-                                onChange={(event, data) => this.setState.sale.customerId(data.value)}
-                               options={customerOptions}
+                            onChange={(event, data) => this.setState( data.value )}
+                             options={customerOptions}
                            />
                        </div>
                        
@@ -165,28 +163,28 @@ export class AddSale extends Component {
 
                    
 
-                 <div>
+               {/* <div>
                     
                     <label htmlFor="productId">Product</label>
                    <div >
                        <input type="number" name="productId"
                            defaultValue={this.state.sale.productId}
-                           onChange={this.handleChange/*(event, data) => setProductId(data.defaultValue)*/}
+                           onChange={this.handleChange}
                        />
                     </div>
                 </div>
-               
+               */}
 
            
-               <div >
+             {/*  <div >
                     <label htmlFor="storeId">Store</label>
                    <div >
                        <input type="number" name="storeId"
                            defaultValue={this.state.sale.storeId}
-                           onChange={this.handleChange/*(event, data) => setStoreId(data.defaultValue)*/}
+                            onChange={this.handleChange} //(event, data) => setStoreId(data.defaultValue)
                        />
                     </div>
-                </div>
+                </div>*/}
                   
                     <div >
                         <button type="submit" >Save</button>
@@ -195,7 +193,7 @@ export class AddSale extends Component {
                 </form>
 
 
-           // })
+          
             )
 
 

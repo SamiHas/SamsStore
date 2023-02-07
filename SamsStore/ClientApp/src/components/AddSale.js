@@ -72,7 +72,7 @@ export class AddSale extends Component {
 
     handleSave = event => {
         event.preventDefault()
-
+// Fetching data for PUSH and PUT method
         const data = new FormData(event.target)
         if (this.state.sale.id) {
             var response = fetch('api/salesapi/' +
