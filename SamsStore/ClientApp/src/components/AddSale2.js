@@ -106,21 +106,23 @@ export class AddSale extends Component {
         this.setState({ customers: data })
     }
 
+
+    //*****I WAS TRYING TO CREAT THE customerOptions for Options for the DropDown
+    customerOptions = () => {
+        this.state.customers.map(customer => {
+           const options = {}
+            options.key = customer.id
+            options.text = customer.name
+            options.value = customer.id
+           return options
+        })
+    }
+
     
 
     renderCreateForm = () => {
 
-        //*****I WAS TRYING TO CREAT THE customerOptions for Options for the DropDown
-        const customerOptions = this.state.customers.map(customer => {
-            const options = {}
-            options.key = customer.id
-            options.text = customer.name
-            options.value = customer.id
-            return options
-        })
-       
-       
-        return (
+       return (
 
          <form onSubmit={this.handleSave} >
 
@@ -144,7 +146,7 @@ export class AddSale extends Component {
               {/* //*******HERE I WAS TRYING TO USE THE DROPDOWN*/}
 
                     <div >
-                   <label htmlFor="customerId">Customer</label>
+                    <label htmlFor="customer">Customer</label>
 
                        <div>
                            <Dropdown
@@ -153,17 +155,21 @@ export class AddSale extends Component {
                             selection
                             value={this.state.sale.customerId}
                             //***** Here the code every where using with setCustomerId, that is using Hooks
-                            //Like this: onChange={(event, data) => setCustomerId(data.value)}
-                            onChange={(event, data) => this.setState( data.value )}
-                             options={customerOptions}
-                           />
-                       </div>
+                            //Like this:
+                            //onChange={(event, data) => setCustomerId(data.value)}
+                            //onChange={(event)=>this.setState({[event.target.name]:enent.target.value})}
+                           onChange={(event, data) => this.setState({ name : data.value })}
+                            
+                            options={this.customerOptions}
+                            />
+
+                        </div>
                        
                     </div>
 
                    
 
-               {/* <div>
+                {/*<div>
                     
                     <label htmlFor="productId">Product</label>
                    <div >
@@ -172,8 +178,8 @@ export class AddSale extends Component {
                            onChange={this.handleChange}
                        />
                     </div>
-                </div>
-               */}
+                </div>*/}
+               
 
            
              {/*  <div >
